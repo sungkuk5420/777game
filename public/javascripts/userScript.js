@@ -206,7 +206,7 @@ function reloadBtn(selectedIndex){
     selectedObj.state= "none";
     selectedObj.styleClass= "none";
     var tl = new TimelineMax();
-    var $btnObj = $('.rowIndex-'+selectedIndex.rowIndex+' .buttonIndex-'+selectedIndex.index);
+    var $btnObj = $('.rowIndex-'+selectedIndex.rowIndex+' .buttonIndex-'+selectedIndex.index + ' .inner.text');
     tl.set($btnObj,{scale: 0.1});
 
     tl.to($btnObj, 1, {
