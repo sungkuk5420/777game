@@ -301,7 +301,7 @@ $(document).ready(function(){
     var hammertime = Hammer(myElement, {
     });
     hammertime.on('panstart', function(ev) {
-        $(event.target).closest('.gameButton').click();
+        $(event.target).closest('.gameButton').mousedown();
     });
 
     hammertime.get('pinch').set({ enable: true });
