@@ -303,6 +303,9 @@ $(document).ready(function(){
     hammertime.on('panstart', function(ev) {
         $(event.target).closest('.gameButton').mousedown();
     });
+    hammertime.on('Press', function(ev) {
+        $(event.target).closest('.gameButton').mousedown();
+    });
 
     hammertime.get('pinch').set({ enable: true });
     hammertime.get('rotate').set({ enable: true });
