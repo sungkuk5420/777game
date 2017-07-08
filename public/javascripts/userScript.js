@@ -122,6 +122,7 @@ var mainVue = new Vue ({
     methods : {
         buttonClick : function (rowIndex, index ) {
 
+            console.log('click');
             var selectedIndex = findWithAttr(vueData.buttons,'state','select');
             var selectedObj = undefined;
             var clickObj = vueData.buttons[rowIndex][index];
@@ -295,6 +296,23 @@ function getComboScore(){
 }
 
 $(document).ready(function(){
+
+    var myElement = document.getElementById('main');
+    var hammertime = Hammer(myElement, {
+    });
+    hammertime.on('panstart', function(ev) {
+        $(event.target).closest('.gameButton').click();
+    });
+
+    hammertime.get('pinch').set({ enable: true });
+    hammertime.get('rotate').set({ enable: true });
+
+    hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+
+    var pinch = new Hammer.Pinch();
+    var rotate = new Hammer.Rotate();
+    pinch.recognizeWith(rotate);
 
     //changeColor
     var array = vueData.buttons;
