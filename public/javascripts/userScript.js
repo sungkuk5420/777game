@@ -110,8 +110,11 @@ var vueData = {
         ]
     ],
     'score' : 0,
-    'combo' : 0
+    'combo' : 0,
+    'time':60
 };
+
+var userName ='';
 
 var mainVue = new Vue ({
     el : '#main' ,
@@ -133,6 +136,7 @@ var mainVue = new Vue ({
                 //클릭한 버튼이 스탭이 다를경우 취소. + 색상이 다를경우에도 취소
                 if((selectedObj.styleClass !== clickObj.styleClass) || (selectedObj.color !== clickObj.color)){
                     selectedObj.state = 'wait';
+                    vueData.combo = 0;
                     return false;
                 }
 
@@ -146,20 +150,23 @@ var mainVue = new Vue ({
 
                     return false;
                 }
-
+                var comboScore = getComboScore();
                 switch (clickObj.styleClass){
                     case 'step1':
                         changeStep(clickObj,'step2');
-                        vueData.score += 1000;
+                        vueData.combo += 1;
+                        vueData.score += 1000*comboScore;
                         break;
                     case 'step2':
                         changeStep(clickObj,'step3');
-                        vueData.score += 1000;
+                        vueData.combo += 1;
+                        vueData.score += 3000*comboScore;
                         break;
                     case 'step3':
                         changeStep(clickObj,'complete');
                         reloadBtn(clickIndex);
-                        vueData.score += 1000;
+                        vueData.combo += 1;
+                        vueData.score += 5000*comboScore;
                         break;
                 }
 
@@ -252,6 +259,41 @@ function getRandomColor(){
     return resultColor;
 }
 
+function getComboScore(){
+    var result = 1;
+
+    if(vueData.combo>500){
+        result = 5;
+    }else if(vueData.combo>400){
+        result = 4;
+    }else if(vueData.combo>300){
+        result = 3;
+    }else if(vueData.combo>200){
+        result = 2;
+    }else if(vueData.combo>90){
+        result = 1.9;
+    }else if(vueData.combo>80){
+        result = 1.8;
+    }else if(vueData.combo>70){
+        result = 1.7;
+    }else if(vueData.combo>60){
+        result = 1.6;
+    }else if(vueData.combo>50){
+        result = 1.5;
+    }else if(vueData.combo>40){
+        result = 1.4;
+    }else if(vueData.combo>30){
+        result = 1.3;
+    }else if(vueData.combo>20){
+        result = 1.2;
+    }else if(vueData.combo>10){
+        result = 1.1;
+    }else {
+        result = 1;
+    }
+    return result;
+}
+
 $(document).ready(function(){
 
     //changeColor
@@ -262,5 +304,20 @@ $(document).ready(function(){
 
         }
     }
+    timeFunc();
+    userName = alert('게임시작');
+
+    function timeFunc(){
+        setTimeout(function(){
+            vueData.time -= 1;
+            if(vueData.time > 0){
+                timeFunc();
+            }else{
+                alert('당신의 점수는 : '+ vueData.score + '점 입니다.');
+                location.reload();
+            }
+        },1000);
+    }
+
 
 });

@@ -48,7 +48,8 @@
   vertical-align: middle;
   text-align: center; }
 
-.score {
-  padding: 30px 0px;
-  padding-bottom: 80px;
-  font-size: 50px; }
+.score,
+.combo,
+.time {
+  padding: 0px 0px;
+  font-size: 43px; }
