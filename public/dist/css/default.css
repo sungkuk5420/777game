@@ -17,7 +17,7 @@
         #main .gamePannel .row .gameButton .text {
           width: 100%;
           height: 100%;
-          font-size: 100px; }
+          font-size: 50px; }
         #main .gamePannel .row .gameButton.step1.select, #main .gamePannel .row .gameButton.step2.select, #main .gamePannel .row .gameButton.step3.select {
           background-color: #ddd;
           border: 1px solid white; }
@@ -30,7 +30,6 @@
         #main .gamePannel .row .gameButton.yellow {
           background-color: yellow; }
         #main .gamePannel .row .gameButton.none {
-          background-color: white;
           border: 1px solid white; }
 
 .title {
@@ -52,4 +51,4 @@
 .score {
   padding: 30px 0px;
   padding-bottom: 80px;
-  font-size: 100px; }
+  font-size: 50px; }

@@ -122,6 +122,10 @@ var mainVue = new Vue ({
             var selectedIndex = findWithAttr(vueData.buttons,'state','select');
             var selectedObj = undefined;
             var clickObj = vueData.buttons[rowIndex][index];
+            var clickIndex = {
+                                'rowIndex' : rowIndex,
+                                'index' : index
+                              };
 
             if((selectedIndex.rowIndex !== -1) && (selectedIndex.rowIndex !== -1)) {
                 selectedObj = vueData.buttons[selectedIndex.rowIndex][selectedIndex.index];
@@ -154,11 +158,13 @@ var mainVue = new Vue ({
                         break;
                     case 'step3':
                         changeStep(clickObj,'complete');
+                        reloadBtn(clickIndex);
                         vueData.score += 1000;
                         break;
                 }
 
                 reloadBtn(selectedIndex);
+
 
             }else{
                 clickObj.state = 'select';
@@ -223,7 +229,7 @@ function changeStep(btnObj, step){
             btnObj.text = '★';
             break;
         case 'complete':
-            reloadBtn(btnObjbtnObj)
+            btnObj.text = '7';
             break;
         default :
             alert('StepChange error!');
