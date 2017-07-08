@@ -304,6 +304,7 @@ $(document).ready(function(){
         $(event.target).closest('.gameButton').mousedown();
     });
     hammertime.on('Press', function(ev) {
+        alert('press!');
         $(event.target).closest('.gameButton').mousedown();
     });
 
