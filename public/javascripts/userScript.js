@@ -122,7 +122,6 @@ var mainVue = new Vue ({
     methods : {
         buttonClick : function (rowIndex, index ) {
 
-            console.log('click');
             var selectedIndex = findWithAttr(vueData.buttons,'state','select');
             var selectedObj = undefined;
             var clickObj = vueData.buttons[rowIndex][index];
@@ -178,7 +177,8 @@ var mainVue = new Vue ({
                 clickObj.state = 'select';
             }
 
-        }
+        },
+
     }
 });
 
@@ -218,7 +218,6 @@ function reloadBtn(selectedIndex){
             selectedObj.state= "wait";
         },
         onComplete: function () {
-            selectedObj.state= "wait";
         }
     });
 }
@@ -263,36 +262,14 @@ function getRandomColor(){
 
 function getComboScore(){
     var result = 1;
+    result = (vueData.combo / 100);
 
-    if(vueData.combo>500){
-        result = 5;
-    }else if(vueData.combo>400){
-        result = 4;
-    }else if(vueData.combo>300){
-        result = 3;
-    }else if(vueData.combo>200){
-        result = 2;
-    }else if(vueData.combo>90){
-        result = 1.9;
-    }else if(vueData.combo>80){
-        result = 1.8;
-    }else if(vueData.combo>70){
-        result = 1.7;
-    }else if(vueData.combo>60){
-        result = 1.6;
-    }else if(vueData.combo>50){
-        result = 1.5;
-    }else if(vueData.combo>40){
-        result = 1.4;
-    }else if(vueData.combo>30){
-        result = 1.3;
-    }else if(vueData.combo>20){
-        result = 1.2;
-    }else if(vueData.combo>10){
-        result = 1.1;
-    }else {
-        result = 1;
+    if(result < 1.0){
+        result += 1;
     }
+
+    console.log(result);
+
     return result;
 }
 
@@ -313,12 +290,11 @@ $(document).ready(function(){
 
     function timeFunc(){
         setTimeout(function(){
-            vueData.time -= 1;
             if(vueData.time >= 0){
-
+                vueData.time -= 1;
                 timeFunc();
             }else{
-                alert('당신의 점수는 : '+ vueData.score + '점 입니다.');
+                alert('당신의 점수는 : '+ comma(vueData.score) + '점 입니다.');
                 location.reload();
             }
         },1000);
@@ -377,7 +353,7 @@ function autoPlay(){
                     breakKey = true;
                     setTimeout(function(){
                         clickButton();
-                    },100);
+                    },0);
 
                     break;
                 }
@@ -388,4 +364,9 @@ function autoPlay(){
         }
     }
 
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
