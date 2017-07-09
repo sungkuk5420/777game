@@ -215,6 +215,7 @@ function reloadBtn(selectedIndex){
         onStart : function(){
             changeStep(selectedObj,'step1');
             selectedObj.color = getRandomColor();
+            selectedObj.state= "wait";
         },
         onComplete: function () {
             selectedObj.state= "wait";
@@ -297,24 +298,27 @@ function getComboScore(){
 
 $(document).ready(function(){
 
-    var myElement = document.getElementById('main');
-    var hammertime = Hammer(myElement, {
-    });
-    hammertime.on('panstart press', function(ev) {
-        var event = event === undefined ? ev : event;
-        $(event.target).closest('.gameButton').click();
-        
-    });
-
-    hammertime.get('pinch').set({ enable: true });
-    hammertime.get('rotate').set({ enable: true });
-
-    hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-
-    var pinch = new Hammer.Pinch();
-    var rotate = new Hammer.Rotate();
-    pinch.recognizeWith(rotate);
+    startup();
+    //var myElement = document.getElementById('main');
+    //var hammertime = Hammer(myElement, {
+    //});
+    //hammertime.on('panstart press', function(ev) {
+    //    var event = event === undefined ? ev : event;
+    //    $(event.target).closest('.gameButton').click();
+    //
+    //});
+    //
+    //hammertime.get('pan').set({ enable: false });
+    //hammertime.get('press').set({ enable: false });
+    //hammertime.get('pinch').set({ enable: false });
+    //hammertime.get('rotate').set({ enable: false });
+    //
+    //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    //hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+    //
+    //var pinch = new Hammer.Pinch();
+    //var rotate = new Hammer.Rotate();
+    //pinch.recognizeWith(rotate);
 
     //changeColor
     var array = vueData.buttons;
@@ -338,6 +342,29 @@ $(document).ready(function(){
             }
         },1000);
     }
+    function startup() {
+        var el = document.getElementById("main");
+        el.addEventListener("touchstart", handleStart, false);
+        el.addEventListener("touchend", handleEnd, false);
+        el.addEventListener("touchcancel", touchCancel, false);
+        el.addEventListener("touchmove", touchMove, false);
 
+        function touchMove(){
+            //console.log(event);
+        }
+
+        function touchCancel(){
+            //console.log(event);
+        }
+
+        function handleStart(){
+            //console.log(event);
+            $(event.target).closest('.gameButton').click();
+        }
+
+        function handleEnd(event){
+            event.preventDefault();
+        }
+    }
 
 });
