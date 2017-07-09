@@ -298,28 +298,7 @@ function getComboScore(){
 
 $(document).ready(function(){
 
-    startup();
-    //var myElement = document.getElementById('main');
-    //var hammertime = Hammer(myElement, {
-    //});
-    //hammertime.on('panstart press', function(ev) {
-    //    var event = event === undefined ? ev : event;
-    //    $(event.target).closest('.gameButton').click();
-    //
-    //});
-    //
-    //hammertime.get('pan').set({ enable: false });
-    //hammertime.get('press').set({ enable: false });
-    //hammertime.get('pinch').set({ enable: false });
-    //hammertime.get('rotate').set({ enable: false });
-    //
-    //hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    //hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-    //
-    //var pinch = new Hammer.Pinch();
-    //var rotate = new Hammer.Rotate();
-    //pinch.recognizeWith(rotate);
-
+    touchEventInit();
     //changeColor
     var array = vueData.buttons;
     for(var i = 0; i < array.length; i += 1) {
@@ -331,10 +310,12 @@ $(document).ready(function(){
     timeFunc();
     userName = alert('게임시작');
 
+
     function timeFunc(){
         setTimeout(function(){
             vueData.time -= 1;
-            if(vueData.time > 0){
+            if(vueData.time >= 0){
+
                 timeFunc();
             }else{
                 alert('당신의 점수는 : '+ vueData.score + '점 입니다.');
@@ -342,7 +323,7 @@ $(document).ready(function(){
             }
         },1000);
     }
-    function startup() {
+    function touchEventInit() {
         var el = document.getElementById("main");
         el.addEventListener("touchstart", handleStart, false);
         el.addEventListener("touchend", handleEnd, false);
@@ -365,6 +346,46 @@ $(document).ready(function(){
         function handleEnd(event){
             event.preventDefault();
         }
+        $('.score').on('click touchstart', function() {
+            autoPlay();
+        });
     }
 
 });
+var autoPlayIndex = 0;
+function autoPlay(){
+    if(autoPlayIndex < 4){
+        console.log(autoPlayIndex);
+        autoPlayIndex++;
+        return false;
+    }else{
+        clickButton();
+    }
+    function clickButton(){
+        var array = vueData.buttons;
+        var firstButtonIndex = {
+            'rowIndex' : Math.floor(Math.random() * 4),
+            'index' : Math.floor(Math.random() * 4)
+        };
+        var firstButton = array[firstButtonIndex.rowIndex][firstButtonIndex.index];
+        var breakKey = false;
+        for(var i = 0; i < array.length; i += 1) {
+            for(var j = 0; j < array[i].length; j += 1) {
+                if((firstButton.color === array[i][j].color) && (firstButton.styleClass === array[i][j].styleClass)) {
+                    $('.rowIndex-'+firstButtonIndex.rowIndex+' .buttonIndex-'+firstButtonIndex.index).click();
+                    $('.rowIndex-'+i+' .buttonIndex-'+j).click();
+                    breakKey = true;
+                    setTimeout(function(){
+                        clickButton();
+                    },100);
+
+                    break;
+                }
+            }
+            if(breakKey){
+                break;
+            }
+        }
+    }
+
+}
