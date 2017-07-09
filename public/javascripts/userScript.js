@@ -300,14 +300,11 @@ $(document).ready(function(){
     var myElement = document.getElementById('main');
     var hammertime = Hammer(myElement, {
     });
-    hammertime.on('panstart', function(ev) {
+    hammertime.on('panstart press', function(ev) {
+        var event = event === undefined ? ev : event;
         $(event.target).closest('.gameButton').click();
+        
     });
-    hammertime.on('Press', function(ev) {
-        alert('press!');
-        $(event.target).closest('.gameButton').click();
-    });
-
 
     hammertime.get('pinch').set({ enable: true });
     hammertime.get('rotate').set({ enable: true });
