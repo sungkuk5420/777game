@@ -21,7 +21,7 @@
     <div class="gamePannel">
         <div class="row" v-for="(buttonRow, rowIndex) in buttons" v-bind:class="'rowIndex-' + rowIndex">
             <div class="col-md-3 col-xs-3 gameButton" v-bind:class="[button.styleClass,' buttonIndex-' + i, button.state, button.color] " v-for="(button, i) in buttonRow"
-                 @mousedown="buttonClick(rowIndex,i)" >
+                 v-on:click="buttonClick(rowIndex,i)" >
                 <div class="outer">
                     <div class="inner text" >{{button.text}}</div>
                 </div>
