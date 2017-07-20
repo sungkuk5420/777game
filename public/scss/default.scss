@@ -3,66 +3,81 @@
   position: fixed;
   width:100%;
   height:100%;
-
-  .gamePannel{
-    border:1px solid #ddd;
-    width: 100%;
-    height: 65%;
-
-
-    .row{
-      height:25%;
-      margin-right:0px;
-      margin-left:0px;
-
-      .gameButton{
+  .contentView{
+    height : calc(100% - 56px);
+    .gameStart{
+      height:100%;
+    }
+    .game{
+      height:100%;
+      .gamePannel{
         border:1px solid #ddd;
-        position: relative;
-        height:100%;
+        width: 100%;
+        height: 65%;
 
-        .text{
-          width:100%;
-          height:100%;
-          font-size:50px;
-        }
 
-        &.step1.select,
-        &.step2.select,
-        &.step3.select{
-          background-color:#ddd;
-          border: 1px solid white;
-        }
+        .row{
+          height:25%;
+          margin-right:0px;
+          margin-left:0px;
 
-        &.red{
-          background-color:red;
-          color:white;
-        }
-        &.blue{
-          background-color:blue;
-          color:white;
-        }
-        &.yellow{
-          background-color:yellow;
-        }
+          .gameButton{
+            border:1px solid #ddd;
+            position: relative;
+            height:100%;
 
-        &.none{
-          border: 1px solid white;
-        }
-      }//gameButton End
+            .text{
+              width:100%;
+              height:100%;
+              font-size:50px;
+            }
 
+            &.step1.select,
+            &.step2.select,
+            &.step3.select{
+              background-color:#ddd;
+              border: 1px solid white;
+            }
+
+            &.red{
+              background-color:red;
+              color:white;
+            }
+            &.blue{
+              background-color:blue;
+              color:white;
+            }
+            &.yellow{
+              background-color:yellow;
+            }
+
+            &.none{
+              border: 1px solid white;
+            }
+          }//gameButton End
+
+        }
+      } // gamePannel
+
+    }
+    .game,
+    .rank{
+      height: 100%;
+      overflow: scroll;
+      .md-table .md-table-head-container,
+      .md-table .md-table-cell .md-table-cell-container,
+      .md-table .md-table-head.md-numeric{
+        text-align: center;
+      }
     }
   }
 
+  .bottomNav{
+    position: absolute;
+    bottom:0;
+  }
 
 }
-
-
-  .title{
-    font-size:2px;
-    padding: 1rem;
-    font-weight: bold;
-    text-align: center;
-  }
 
   .outer {
     display: table;
@@ -79,6 +94,9 @@
   .score,
   .combo,
   .time{
-    padding:0px 0px;
-    font-size:43px;
+    font-size:3rem;
+    height:10%;
+    padding: 1rem;
+    font-weight: bold;
+    text-align: center;
   }

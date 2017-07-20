@@ -7,8 +7,15 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var admin = require("firebase-admin");
+var serviceAccount = require("./public/path/to/serviceAccountKey.json");
 
 var app = express();
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
+
+// Indicate port 3000 as host
+var port = process.env.PORT || 3000;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +51,13 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-app.listen(4000, function () {
+app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
 });
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://sevengame-96feb.firebaseio.com"
+});
+
+

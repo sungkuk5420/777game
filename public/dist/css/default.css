@@ -2,41 +2,55 @@
   position: fixed;
   width: 100%;
   height: 100%; }
-  #main .gamePannel {
-    border: 1px solid #ddd;
-    width: 100%;
-    height: 65%; }
-    #main .gamePannel .row {
-      height: 25%;
-      margin-right: 0px;
-      margin-left: 0px; }
-      #main .gamePannel .row .gameButton {
+  #main .contentView {
+    height: calc(100% - 56px); }
+    #main .contentView .gameStart {
+      height: 100%; }
+    #main .contentView .game {
+      height: 100%; }
+      #main .contentView .game .gamePannel {
         border: 1px solid #ddd;
-        position: relative;
-        height: 100%; }
-        #main .gamePannel .row .gameButton .text {
-          width: 100%;
-          height: 100%;
-          font-size: 50px; }
-        #main .gamePannel .row .gameButton.step1.select, #main .gamePannel .row .gameButton.step2.select, #main .gamePannel .row .gameButton.step3.select {
-          background-color: #ddd;
-          border: 1px solid white; }
-        #main .gamePannel .row .gameButton.red {
-          background-color: red;
-          color: white; }
-        #main .gamePannel .row .gameButton.blue {
-          background-color: blue;
-          color: white; }
-        #main .gamePannel .row .gameButton.yellow {
-          background-color: yellow; }
-        #main .gamePannel .row .gameButton.none {
-          border: 1px solid white; }
-
-.title {
-  font-size: 2px;
-  padding: 1rem;
-  font-weight: bold;
-  text-align: center; }
+        width: 100%;
+        height: 65%; }
+        #main .contentView .game .gamePannel .row {
+          height: 25%;
+          margin-right: 0px;
+          margin-left: 0px; }
+          #main .contentView .game .gamePannel .row .gameButton {
+            border: 1px solid #ddd;
+            position: relative;
+            height: 100%; }
+            #main .contentView .game .gamePannel .row .gameButton .text {
+              width: 100%;
+              height: 100%;
+              font-size: 50px; }
+            #main .contentView .game .gamePannel .row .gameButton.step1.select, #main .contentView .game .gamePannel .row .gameButton.step2.select, #main .contentView .game .gamePannel .row .gameButton.step3.select {
+              background-color: #ddd;
+              border: 1px solid white; }
+            #main .contentView .game .gamePannel .row .gameButton.red {
+              background-color: red;
+              color: white; }
+            #main .contentView .game .gamePannel .row .gameButton.blue {
+              background-color: blue;
+              color: white; }
+            #main .contentView .game .gamePannel .row .gameButton.yellow {
+              background-color: yellow; }
+            #main .contentView .game .gamePannel .row .gameButton.none {
+              border: 1px solid white; }
+    #main .contentView .game,
+    #main .contentView .rank {
+      height: 100%;
+      overflow: scroll; }
+      #main .contentView .game .md-table .md-table-head-container,
+      #main .contentView .game .md-table .md-table-cell .md-table-cell-container,
+      #main .contentView .game .md-table .md-table-head.md-numeric,
+      #main .contentView .rank .md-table .md-table-head-container,
+      #main .contentView .rank .md-table .md-table-cell .md-table-cell-container,
+      #main .contentView .rank .md-table .md-table-head.md-numeric {
+        text-align: center; }
+  #main .bottomNav {
+    position: absolute;
+    bottom: 0; }
 
 .outer {
   display: table;
@@ -51,5 +65,8 @@
 .score,
 .combo,
 .time {
-  padding: 0px 0px;
-  font-size: 43px; }
+  font-size: 3rem;
+  height: 10%;
+  padding: 1rem;
+  font-weight: bold;
+  text-align: center; }

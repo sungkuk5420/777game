@@ -20,7 +20,7 @@ gulp.task('browser-sync', function() {
     browserSync.init({
         files: ['public/**/*.*', 'views/**/*.*'], // BrowserSyncにまかせるファイル群
         proxy: 'http://localhost:3000',  // express の動作するポートにプロキシ
-        port: 5000,  // BrowserSync は 4000 番ポートで起動
+        port: 4000,  // BrowserSync は 4000 番ポートで起動
         open: true  // ブラウザ open する
     });
 });
@@ -58,7 +58,7 @@ gulp.task('server', ['browser-sync'], function () {
 //　Javascriptファイルを一つに併合
 gulp.task('combine-js', function () {
     return gulp.src(paths.js)
-        .pipe(stripDebug())
+        // .pipe(stripDebug())
         .pipe(uglify())
         .pipe(concat('script.js'))
         .pipe(gulp.dest(dist + '/js'));

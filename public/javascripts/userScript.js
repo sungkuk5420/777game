@@ -2,8 +2,17 @@
  * Created by pc on 2017/06/20.
  */
 
+
+Vue.use(VueMaterial);
+// Vue.use(VueMaterial.mdCore);
+// Vue.use(VueMaterial.mdButton);
+// Vue.use(VueMaterial.mdIcon);
+// Vue.use(VueMaterial.mdSidenav);
+// Vue.use(VueMaterial.mdToolbar);
+
 var vueData = {
-    'buttons': [
+    'pageState' : 'game',
+    'buttons' : [
         [
             {
                 'state': 'wait',
@@ -109,6 +118,121 @@ var vueData = {
             }
         ]
     ],
+    'usersRank': [],
+    'score' : 0,
+    'combo' : 0,
+    'time':60
+};
+
+var vueDefaultData = {
+    'pageState' : 'game',
+    'buttons' : [
+        [
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            }
+        ],
+        [
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            }
+        ],
+        [
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            }
+        ],
+        [
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            },
+            {
+                'state': 'wait',
+                'text': '7',
+                'styleClass': 'step1',
+                'color': 'red'
+            }
+        ]
+    ],
+    'usersRank': [],
     'score' : 0,
     'combo' : 0,
     'time':60
@@ -274,31 +398,16 @@ function getComboScore(){
 }
 
 $(document).ready(function(){
-
     touchEventInit();
     //changeColor
     var array = vueData.buttons;
     for(var i = 0; i < array.length; i += 1) {
         for(var j = 0; j < array[i].length; j += 1) {
             array[i][j].color = getRandomColor();
-
         }
     }
-    timeFunc();
-    userName = alert('게임시작');
 
 
-    function timeFunc(){
-        setTimeout(function(){
-            if(vueData.time >= 0){
-                vueData.time -= 1;
-                timeFunc();
-            }else{
-                alert('당신의 점수는 : '+ comma(vueData.score) + '점 입니다.');
-                location.reload();
-            }
-        },1000);
-    }
     function touchEventInit() {
         var el = document.getElementById("main");
         el.addEventListener("touchstart", handleStart, false);
@@ -316,7 +425,11 @@ $(document).ready(function(){
 
         function handleStart(){
             //console.log(event);
-            $(event.target).closest('.gameButton').click();
+            var $eventTarget = $(event.target);
+            var $clickObj = $eventTarget.closest('.eventObj');
+
+            $clickObj.click();
+
         }
 
         function handleEnd(event){
@@ -369,4 +482,72 @@ function autoPlay(){
 function comma(str) {
     str = String(str);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function changeView(pageName){
+    switch (pageName){
+        case 'main':
+            vueData.pageState='main';
+            break;
+        case 'game':
+            // vueData = vueDefaultData;
+            vueData.pageState='game';
+            break;
+        case 'rank':
+            getDataBase(function(){
+                console.log(usersScore);
+
+                usersScore = usersScore.sort(function(a, b) {
+                    return parseFloat(a.score) - parseFloat(b.score);
+                });
+                usersScore.reverse();
+                vueData.usersRank = usersScore;
+                vueData.pageState = 'rank';
+            });
+
+            break;
+        default:
+            vueData.pageState='main';
+            break;
+    }
+}
+
+function writeUserData(userName, userScore) {
+    console.log(userScore);
+    var selectUser = usersScore.filter(function(item, index){
+        if (item.name == userName) return true;
+    });
+    console.log(parseInt(selectUser[0].score));
+    console.log(parseInt(userScore));
+    if(selectUser[0].score > userScore){
+        alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
+    }else{
+        firebase.database().ref('user/'+userName).set(userScore);
+        changeView('rank');
+    }
+}
+
+function gameStart(){
+    if(vueData.time != 60){
+        location.reload();
+    }else{
+        timeFunc();
+        vueData.pageState='gameStart';
+    }
+}
+function timeFunc(){
+    setTimeout(function(){
+        if(vueData.time >= 1){
+            vueData.time -= 1;
+            timeFunc();
+        }else{
+            // alert('당신의 점수는 : '+ comma(vueData.score) + '점 입니다.');
+            var score = comma(vueData.score);
+            var answer = window.prompt("저장할 유저 이름을 입력하세요.", "닉네임");
+            if(answer){
+                writeUserData(answer,score);
+            }
+            //location.reload();
+        }
+    },1000);
 }
