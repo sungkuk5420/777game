@@ -9,9 +9,12 @@ Vue.use(VueMaterial);
 // Vue.use(VueMaterial.mdIcon);
 // Vue.use(VueMaterial.mdSidenav);
 // Vue.use(VueMaterial.mdToolbar);
-
+Vue.component('modal', {
+    template: '#modal-template'
+});
 var vueData = {
     'pageState' : 'game',
+    'showModal': false,
     'buttons' : [
         [
             {
@@ -118,6 +121,7 @@ var vueData = {
             }
         ]
     ],
+    'pageMoveDelay':false,
     'usersRank': [],
     'score' : 0,
     'combo' : 0,
@@ -239,9 +243,12 @@ var vueDefaultData = {
 };
 
 var userName ='';
-
+function scoreSave(){
+    var userName = $('.userNameInput').val();
+    writeUserData(userName,comma(vueData.score));
+}
 var mainVue = new Vue ({
-    el : '#main' ,
+    el : '#app' ,
     data : vueData,
     methods : {
         buttonClick : function (rowIndex, index ) {
@@ -275,6 +282,9 @@ var mainVue = new Vue ({
                     return false;
                 }
                 var comboScore = getComboScore();
+                vueData.score = String(vueData.score).replace(/,/gi,'');
+                vueData.score = parseInt(vueData.score);
+
                 switch (clickObj.styleClass){
                     case 'step1':
                         changeStep(clickObj,'step2');
@@ -293,6 +303,8 @@ var mainVue = new Vue ({
                         vueData.score += 5000*comboScore;
                         break;
                 }
+                console.log(vueData.score);
+                vueData.score = comma(vueData.score);
 
                 reloadBtn(selectedIndex);
 
@@ -302,7 +314,6 @@ var mainVue = new Vue ({
             }
 
         },
-
     }
 });
 
@@ -409,7 +420,7 @@ $(document).ready(function(){
 
 
     function touchEventInit() {
-        var el = document.getElementById("main");
+        var el = document.getElementById("app");
         el.addEventListener("touchstart", handleStart, false);
         el.addEventListener("touchend", handleEnd, false);
         el.addEventListener("touchcancel", touchCancel, false);
@@ -423,17 +434,45 @@ $(document).ready(function(){
             //console.log(event);
         }
 
-        function handleStart(){
-            //console.log(event);
+        function handleStart(event){
+            //console.log(vueData.pageMoveDelay);
+            //if(vueData.pageMoveDelay === true){
+            //    return false;
+            //}
             var $eventTarget = $(event.target);
-            var $clickObj = $eventTarget.closest('.eventObj');
+            if($eventTarget.closest('.eventEnd').length === 0 ){
+                var $clickObj = $eventTarget.closest('.eventObj');
 
-            $clickObj.click();
+                if($clickObj.closest('input').length !== 0){
+                    $clickObj.focus();
+                }else{
+                    $clickObj.click();
+                }
+            }else{
+                event.preventDefault();
+            }
 
         }
 
         function handleEnd(event){
-            event.preventDefault();
+            //console.log(vueData.pageMoveDelay);
+            //if(vueData.pageMoveDelay === true){
+            //    return false;
+            //}
+            var $eventTarget = $(event.target);
+            if($eventTarget.closest('.eventEnd').length !== 0 ) {
+                var $eventTarget = $(event.target);
+                var $clickObj = $eventTarget.closest('.eventEnd');
+
+                if ($clickObj.closest('input').length !== 0) {
+                    $clickObj.focus();
+                } else {
+                    $clickObj.click();
+                }
+            }else{
+                console.log('end!!');
+                event.preventDefault();
+            }
         }
         $('.score').on('click touchstart', function() {
             autoPlay();
@@ -480,14 +519,19 @@ function autoPlay(){
 }
 
 function comma(str) {
+
     str = String(str);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
 
 function changeView(pageName){
+    //vueData.pageMoveDelay = true;
     switch (pageName){
         case 'main':
             vueData.pageState='main';
+            break;
+        case 'join':
+            vueData.pageState='join';
             break;
         case 'game':
             // vueData = vueDefaultData;
@@ -495,13 +539,13 @@ function changeView(pageName){
             break;
         case 'rank':
             getDataBase(function(){
-                console.log(usersScore);
+                console.log(DBUsersScore);
 
-                usersScore = usersScore.sort(function(a, b) {
+                DBUsersScore = DBUsersScore.sort(function(a, b) {
                     return parseFloat(a.score) - parseFloat(b.score);
                 });
-                usersScore.reverse();
-                vueData.usersRank = usersScore;
+                DBUsersScore.reverse();
+                vueData.usersRank = DBUsersScore;
                 vueData.pageState = 'rank';
             });
 
@@ -510,21 +554,27 @@ function changeView(pageName){
             vueData.pageState='main';
             break;
     }
+
+    //setTimeout(function(){
+    //    vueData.pageMoveDelay = false;
+    //},1000)
 }
 
 function writeUserData(userName, userScore) {
-    console.log(userScore);
-    var selectUser = usersScore.filter(function(item, index){
-        if (item.name == userName) return true;
-    });
-    console.log(parseInt(selectUser[0].score));
-    console.log(parseInt(userScore));
-    if(selectUser[0].score > userScore){
-        alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
-    }else{
-        firebase.database().ref('user/'+userName).set(userScore);
-        changeView('rank');
+    if(DBUsersScore !== undefined){
+        var selectUser = DBUsersScore.filter(function(item, index){
+            if (item.name == userName) return true;
+        });
+        var score = comma(userScore);
+        if( (selectUser.length !== 0)
+            && (selectUser[0].score > score) ){
+            alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
+        }else{
+            firebase.database().ref('user/'+userName).set(score);
+            changeView('rank');
+        }
     }
+
 }
 
 function gameStart(){
@@ -543,10 +593,11 @@ function timeFunc(){
         }else{
             // alert('당신의 점수는 : '+ comma(vueData.score) + '점 입니다.');
             var score = comma(vueData.score);
-            var answer = window.prompt("저장할 유저 이름을 입력하세요.", "닉네임");
-            if(answer){
-                writeUserData(answer,score);
-            }
+            vueData.showModal = true;
+            //var answer = window.prompt("저장할 유저 이름을 입력하세요.", "닉네임");
+            //if(answer){
+            //    writeUserData(answer,score);
+            //}
             //location.reload();
         }
     },1000);

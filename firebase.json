@@ -5,6 +5,11 @@
   "rules": {
     ".read": true,
     ".write": true
+  },
+  "database": {
+    "rules": {
+      ".read": true,
+      ".write": true
+    }
   }
-
 }

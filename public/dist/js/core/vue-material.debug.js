@@ -9274,6 +9274,7 @@ exports.default = {
       this.parentStepper.moveNextStep();
     },
     movePreviousStep: function movePreviousStep() {
+      console.log(this);
       this.parentStepper.movePreviousStep();
     },
     setActiveStep: function setActiveStep() {
@@ -17577,7 +17578,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._t("default"), _vm._v(" "), (!_vm.vertical || (_vm.vertical && _vm.isCurrentStep)) ? _c('div', {
     staticClass: "md-step-actions"
   }, [_c('md-button', {
-    staticClass: "md-raised md-primary",
+    staticClass: "md-raised md-primary eventObj eventEnd",
     attrs: {
       "disabled": !_vm.mdContinue
     },
@@ -17585,6 +17586,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.moveNextStep
     }
   }, [_vm._v(_vm._s(_vm.continueText))]), _vm._v(" "), _c('md-button', {
+    staticClass: " eventObj eventEnd",
     attrs: {
       "disabled": !_vm.canGoBack
     },

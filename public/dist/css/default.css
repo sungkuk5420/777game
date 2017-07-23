@@ -1,54 +1,62 @@
-#main {
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+.hanna * {
+  font-family: 'Hanna', fantasy; }
+
+* {
+  font-family: 'Hanna', fantasy; }
+
+#app {
   position: fixed;
   width: 100%;
   height: 100%; }
-  #main .contentView {
+  #app .contentView {
     height: calc(100% - 56px); }
-    #main .contentView .gameStart {
+    #app .contentView .main,
+    #app .contentView .gameStart {
       height: 100%; }
-    #main .contentView .game {
+    #app .contentView .game {
       height: 100%; }
-      #main .contentView .game .gamePannel {
+      #app .contentView .game .gamePannel {
         border: 1px solid #ddd;
         width: 100%;
         height: 65%; }
-        #main .contentView .game .gamePannel .row {
+        #app .contentView .game .gamePannel .row {
           height: 25%;
           margin-right: 0px;
           margin-left: 0px; }
-          #main .contentView .game .gamePannel .row .gameButton {
+          #app .contentView .game .gamePannel .row .gameButton {
             border: 1px solid #ddd;
             position: relative;
             height: 100%; }
-            #main .contentView .game .gamePannel .row .gameButton .text {
+            #app .contentView .game .gamePannel .row .gameButton .text {
               width: 100%;
               height: 100%;
               font-size: 50px; }
-            #main .contentView .game .gamePannel .row .gameButton.step1.select, #main .contentView .game .gamePannel .row .gameButton.step2.select, #main .contentView .game .gamePannel .row .gameButton.step3.select {
+            #app .contentView .game .gamePannel .row .gameButton.step1.select, #app .contentView .game .gamePannel .row .gameButton.step2.select, #app .contentView .game .gamePannel .row .gameButton.step3.select {
               background-color: #ddd;
               border: 1px solid white; }
-            #main .contentView .game .gamePannel .row .gameButton.red {
+            #app .contentView .game .gamePannel .row .gameButton.red {
               background-color: red;
               color: white; }
-            #main .contentView .game .gamePannel .row .gameButton.blue {
+            #app .contentView .game .gamePannel .row .gameButton.blue {
               background-color: blue;
               color: white; }
-            #main .contentView .game .gamePannel .row .gameButton.yellow {
+            #app .contentView .game .gamePannel .row .gameButton.yellow {
               background-color: yellow; }
-            #main .contentView .game .gamePannel .row .gameButton.none {
+            #app .contentView .game .gamePannel .row .gameButton.none {
               border: 1px solid white; }
-    #main .contentView .game,
-    #main .contentView .rank {
+    #app .contentView .game,
+    #app .contentView .rank {
       height: 100%;
       overflow: scroll; }
-      #main .contentView .game .md-table .md-table-head-container,
-      #main .contentView .game .md-table .md-table-cell .md-table-cell-container,
-      #main .contentView .game .md-table .md-table-head.md-numeric,
-      #main .contentView .rank .md-table .md-table-head-container,
-      #main .contentView .rank .md-table .md-table-cell .md-table-cell-container,
-      #main .contentView .rank .md-table .md-table-head.md-numeric {
+      #app .contentView .game .md-table .md-table-head-container,
+      #app .contentView .game .md-table .md-table-cell .md-table-cell-container,
+      #app .contentView .game .md-table .md-table-head.md-numeric,
+      #app .contentView .rank .md-table .md-table-head-container,
+      #app .contentView .rank .md-table .md-table-cell .md-table-cell-container,
+      #app .contentView .rank .md-table .md-table-head.md-numeric {
         text-align: center; }
-  #main .bottomNav {
+  #app .bottomNav {
     position: absolute;
     bottom: 0; }
 
@@ -70,3 +78,57 @@
   padding: 1rem;
   font-weight: bold;
   text-align: center; }
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity .3s ease; }
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle; }
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif; }
+
+.modal-header {
+  border: none;
+  padding: 0px; }
+  .modal-header h3 {
+    margin-top: 0;
+    color: #3f51b5; }
+
+.modal-body {
+  margin: 10px 0;
+  padding: 0px; }
+
+.modal-footer {
+  padding-top: 0px;
+  border: none; }
+
+.modal-default-button {
+  float: right; }
+
+.modal-enter {
+  opacity: 0; }
+
+.modal-leave-active {
+  opacity: 0; }
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1); }

@@ -3,12 +3,13 @@
 <head>
 
     <title><%= title %></title>
+    <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js" ></script>
-    <script src="/dist/js/core/vue-material.js"></script>
+    <script src="/dist/js/core/vue-material.debug.js"></script>
     <link rel="stylesheet" href="/dist/css/core/vue-material.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
@@ -26,14 +27,54 @@
     </style>
 </head>
 <body  >
-<div id="main">
+<div id="app">
 
     <div class="contentView">
+
+        <div class="main" style="" v-if="pageState == 'main'">
+            <div class="outer">
+                <div class="inner">
+                    <div class="row">
+                        <md-button class="md-raised md-primary eventObj" onclick="gameStart();">로그인</md-button>
+                    </div>
+                    <div class="row">
+                        <md-button class="md-raised md-primary eventObj eventEnd" onclick="changeView('join');">회원가입</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="join" style="" v-if="pageState == 'join'">
+            <div class="outer">
+                <div class="inner">
+                    <md-stepper>
+                        <md-step md-continue="false" md-button-continue="다음" md-button-back="이전">
+                            <md-input-container>
+                                <label>유저 이름을 입력하세요.</label>
+                                <md-input v-model="initialValue" class="eventObj" ></md-input>
+                            </md-input-container>
+                            <md-input-container md-has-password>
+                                <label>패드워드를 입력해주세요.</label>
+                                <md-input type="password" class="eventObj"></md-input>
+                            </md-input-container>
+
+                            <md-input-container md-has-password>
+                                <label>패스워드를 한번 더 입력해주세요.</label>
+                                <md-input type="password" class="eventObj"></md-input>
+                            </md-input-container>
+                        </md-step>
+                        <md-step  md-button-continue="완료" md-button-back="이전">
+                            <p>회원가입이 완료 되었습니다.</p>
+                        </md-step>
+                    </md-stepper>
+                </div>
+            </div>
+        </div>
 
         <div class="gameStart" style="" v-if="pageState == 'game'">
             <div class="outer">
                 <div class="inner">
-                    <md-button class="md-raised md-primary eventObj" onclick="gameStart();">게임시작</md-button>
+                    <md-button class="md-raised md-primary eventObj eventEnd" onclick="gameStart();">게임시작</md-button>
                 </div>
             </div>
 
@@ -55,7 +96,7 @@
             <div class="score" >{{score}}</div>
         </div>
 
-        <div class="gameEnd" style="display:none;" v-if="pageState == 'game'">
+        <div class="gameEnd" style="display:none;" v-if="pageState == 'gameEnd'">
 
         </div>
 
@@ -81,12 +122,47 @@
     </div>
     <div class="phone-viewport">
         <md-bottom-bar md-theme="teal" class="bottomNav">
-            <md-bottom-bar-item md-icon="history" onclick="changeView('main');" class="eventObj">main</md-bottom-bar-item>
-            <md-bottom-bar-item md-icon="favorite" md-active onclick="changeView('game');" class="eventObj">game</md-bottom-bar-item>
-            <md-bottom-bar-item md-icon="near_me" onclick="changeView('rank');" class="eventObj">rank</md-bottom-bar-item>
+            <!--<md-bottom-bar-item md-icon="history" onclick="changeView('main');" class="eventObj eventEnd">main</md-bottom-bar-item>-->
+            <md-bottom-bar-item md-icon="favorite" md-active onclick="changeView('game');" class="eventObj eventEnd">game</md-bottom-bar-item>
+            <md-bottom-bar-item md-icon="near_me" onclick="changeView('rank');" class="eventObj eventEnd">rank</md-bottom-bar-item>
         </md-bottom-bar>
     </div>
+    <!-- use the modal component, pass in the prop -->
+    <modal v-if="showModal" @close="showModal = false" />
+    <h3 slot="header">점수 저장</h3>
 </div>
+<script type="text/x-template" id="modal-template">
+    <transition name="modal">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <div class="modal-container">
+
+                    <div class="modal-header">
+                        <slot name="header">
+                            default header
+                        </slot>
+                    </div>
+
+                    <div class="modal-body">
+                        <slot name="body">
+                            <md-input-container>
+                                <label>유저 이름을 입력하세요.</label>
+                                <md-input v-model="initialValue" class="eventObj userNameInput" ></md-input>
+                            </md-input-container>
+                        </slot>
+                    </div>
+
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <md-button class="md-primary md-raised eventEnd" @click=" $emit('close') " onclick="scoreSave();">저장</md-button>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</script>
+
 <script src="/javascripts/database.js"></script>
 <script src="/javascripts/userScript.js"></script>
 </body>
