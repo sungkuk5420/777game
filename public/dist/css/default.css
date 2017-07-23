@@ -119,6 +119,9 @@
   padding-top: 0px;
   border: none; }
 
+.md-button {
+  min-width: 80px; }
+
 .modal-default-button {
   float: right; }
 

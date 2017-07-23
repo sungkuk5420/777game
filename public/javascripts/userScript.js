@@ -245,7 +245,15 @@ var vueDefaultData = {
 var userName ='';
 function scoreSave(){
     var userName = $('.userNameInput').val();
-    writeUserData(userName,comma(vueData.score));
+    if(userName !== ''){
+        writeUserData(userName,comma(vueData.score));
+    }else{
+        alert('유저이름을 입력하세요.');
+
+        setTimeout(function(){
+            vueData.showModal = true;
+        },500);
+    }
 }
 var mainVue = new Vue ({
     el : '#app' ,
