@@ -10,7 +10,21 @@ Vue.use(VueMaterial);
 // Vue.use(VueMaterial.mdSidenav);
 // Vue.use(VueMaterial.mdToolbar);
 Vue.component('modal', {
-    template: '#modal-template'
+    template: '#modal-template',
+    data : function () {
+        return { focusClass: '' }
+    },
+    methods: {
+        focus: function () {
+            this.focusClass = 'md-input-focused';
+        },
+        blur: function () {
+            var userName = $('.userNameInput').val();
+            if(userName === ''){
+                this.focusClass = '';
+            }
+        }
+    }
 });
 var vueData = {
     'pageState' : 'game',
@@ -311,7 +325,6 @@ var mainVue = new Vue ({
                         vueData.score += 5000*comboScore;
                         break;
                 }
-                console.log(vueData.score);
                 vueData.score = comma(vueData.score);
 
                 reloadBtn(selectedIndex);
@@ -411,8 +424,6 @@ function getComboScore(){
         result += 1;
     }
 
-    console.log(result);
-
     return result;
 }
 
@@ -478,24 +489,21 @@ $(document).ready(function(){
                     $clickObj.click();
                 }
             }else{
-                console.log('end!!');
                 event.preventDefault();
             }
         }
-        $('.score').on('click touchstart', function() {
-            autoPlay();
-        });
     }
 
 });
 var autoPlayIndex = 0;
 function autoPlay(){
     if(autoPlayIndex < 4){
-        console.log(autoPlayIndex);
         autoPlayIndex++;
         return false;
     }else{
+        //vueData.showModal = true;
         clickButton();
+
     }
     function clickButton(){
         var array = vueData.buttons;
@@ -547,7 +555,6 @@ function changeView(pageName){
             break;
         case 'rank':
             getDataBase(function(){
-                console.log(DBUsersScore);
 
                 DBUsersScore = DBUsersScore.sort(function(a, b) {
                     return parseFloat(a.score) - parseFloat(b.score);
