@@ -150,34 +150,38 @@ function writeUserData(params) {
         score = String(score).replace(/,/gi,'');
         score = parseInt(score);
 
-        if( (selectUser !== undefined)
-            && (selectUser.score > score) ){
-            alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
-        }else{
-            var bonus = parseInt(score*(selectUser.level/100));
-            var resultScore = score+bonus;
-            var exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
-            var level = selectUser.level;
-            if(level < parseInt( exe / 10000 )){
-                level = parseInt( exe / 10000 );
 
-                bonus = parseInt(score*(level/100));
-                resultScore = score+bonus;
-                exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
-            }
-            firebase.database().ref('user/'+userId).set({
-                password: selectUser.password.toString(),
-                nickName: selectUser.nickName.toString(),
-                level: level,
-                exe : comma(exe),
-                bonus : comma(bonus),
-                score: comma(resultScore)
-            });
+        var bonus = parseInt(score*(selectUser.level/100));
+        var resultScore = score+bonus;
+        var exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
+        var level = selectUser.level;
+        if(level < parseInt( exe / 10000 )){
+            level = parseInt( exe / 10000 );
+
+            bonus = parseInt(score*(level/100));
+            resultScore = score+bonus;
+            exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
+        }
+        if( (selectUser !== undefined)
+            && (parseInt(String(selectUser.score).replace(/,/gi,'')) > parseInt(String(resultScore).replace(/,/gi,'')))){
+            //alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
             if(params.cb){
                 params.cb();
             }
-            // changeView('rank');
+            return false;
         }
+        firebase.database().ref('user/'+userId).set({
+            password: selectUser.password.toString(),
+            nickName: selectUser.nickName.toString(),
+            level: level,
+            exe : comma(exe),
+            bonus : comma(bonus),
+            score: comma(resultScore)
+        });
+        if(params.cb){
+            params.cb();
+        }
+        // changeView('rank');
     }
 }
 
