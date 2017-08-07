@@ -11,9 +11,13 @@
   height: 100%; }
   #app .contentView {
     height: calc(100% - 56px); }
+    #app .contentView .intro,
     #app .contentView .main,
+    #app .contentView .setting,
     #app .contentView .gameStart {
       height: 100%; }
+    #app .contentView .intro .md-input-container {
+      margin-bottom: 8px; }
     #app .contentView .game {
       height: 100%; }
       #app .contentView .game .gamePannel {
@@ -45,13 +49,9 @@
               background-color: yellow; }
             #app .contentView .game .gamePannel .row .gameButton.none {
               border: 1px solid white; }
-    #app .contentView .game,
     #app .contentView .rank {
       height: 100%;
       overflow: scroll; }
-      #app .contentView .game .md-table .md-table-head-container,
-      #app .contentView .game .md-table .md-table-cell .md-table-cell-container,
-      #app .contentView .game .md-table .md-table-head.md-numeric,
       #app .contentView .rank .md-table .md-table-head-container,
       #app .contentView .rank .md-table .md-table-cell .md-table-cell-container,
       #app .contentView .rank .md-table .md-table-head.md-numeric {
@@ -59,6 +59,9 @@
   #app .bottomNav {
     position: absolute;
     bottom: 0; }
+  #app .disable {
+    background-color: #ddd;
+    color: white; }
 
 .outer {
   display: table;
@@ -79,8 +82,12 @@
   font-weight: bold;
   text-align: center; }
 
+.row {
+  margin-right: 0px;
+  margin-left: 0px; }
+
 .modal-mask {
-  position: absolute;
+  position: fixed;
   z-index: 9998;
   top: 0;
   left: 0;
@@ -118,9 +125,6 @@
 .modal-footer {
   padding-top: 0px;
   border: none; }
-
-.md-button {
-  min-width: 80px; }
 
 .modal-default-button {
   float: right; }

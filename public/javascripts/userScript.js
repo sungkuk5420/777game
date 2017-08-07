@@ -27,7 +27,7 @@ Vue.component('modal', {
     }
 });
 var vueData = {
-    'pageState' : 'game',
+    'pageState' : 'wait',
     'showModal': false,
     'buttons' : [
         [
@@ -137,130 +137,21 @@ var vueData = {
     ],
     'pageMoveDelay':false,
     'usersRank': [],
-    'score' : 0,
-    'combo' : 0,
-    'time':60
-};
-
-var vueDefaultData = {
-    'pageState' : 'game',
-    'buttons' : [
-        [
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
-        ],
-        [
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
-        ],
-        [
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
-        ],
-        [
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
-        ]
-    ],
-    'usersRank': [],
-    'score' : 0,
-    'combo' : 0,
-    'time':60
+    'gamePlayInfo': {
+        'exe' : 0,
+        'level' : 0,
+        'bonus' : 0,
+        'score': 0,
+        'combo': 0,
+        'time': 60
+    }
 };
 
 var userName ='';
 function scoreSave(){
     var userName = $('.userNameInput').val();
     if(userName !== ''){
-        writeUserData(userName,comma(vueData.score));
+        writeUserData(userName,comma(vueData.gamePlayInfo.score));
     }else{
         alert('유저이름을 입력하세요.');
 
@@ -279,9 +170,9 @@ var mainVue = new Vue ({
             var selectedObj = undefined;
             var clickObj = vueData.buttons[rowIndex][index];
             var clickIndex = {
-                                'rowIndex' : rowIndex,
-                                'index' : index
-                              };
+                'rowIndex' : rowIndex,
+                'index' : index
+            };
 
             if((selectedIndex.rowIndex !== -1) && (selectedIndex.rowIndex !== -1)) {
                 selectedObj = vueData.buttons[selectedIndex.rowIndex][selectedIndex.index];
@@ -289,7 +180,7 @@ var mainVue = new Vue ({
                 //클릭한 버튼이 스탭이 다를경우 취소. + 색상이 다를경우에도 취소
                 if((selectedObj.styleClass !== clickObj.styleClass) || (selectedObj.color !== clickObj.color)){
                     selectedObj.state = 'wait';
-                    vueData.combo = 0;
+                    vueData.gamePlayInfo.combo = 0;
                     return false;
                 }
 
@@ -304,28 +195,28 @@ var mainVue = new Vue ({
                     return false;
                 }
                 var comboScore = getComboScore();
-                vueData.score = String(vueData.score).replace(/,/gi,'');
-                vueData.score = parseInt(vueData.score);
+                vueData.gamePlayInfo.score = String(vueData.gamePlayInfo.score).replace(/,/gi,'');
+                vueData.gamePlayInfo.score = parseInt(vueData.gamePlayInfo.score);
 
                 switch (clickObj.styleClass){
                     case 'step1':
                         changeStep(clickObj,'step2');
-                        vueData.combo += 1;
-                        vueData.score += 1000*comboScore;
+                        vueData.gamePlayInfo.combo += 1;
+                        vueData.gamePlayInfo.score += 1000*comboScore;
                         break;
                     case 'step2':
                         changeStep(clickObj,'step3');
-                        vueData.combo += 1;
-                        vueData.score += 3000*comboScore;
+                        vueData.gamePlayInfo.combo += 1;
+                        vueData.gamePlayInfo.score += 3000*comboScore;
                         break;
                     case 'step3':
                         changeStep(clickObj,'complete');
                         reloadBtn(clickIndex);
-                        vueData.combo += 1;
-                        vueData.score += 5000*comboScore;
+                        vueData.gamePlayInfo.combo += 1;
+                        vueData.gamePlayInfo.score += 5000*comboScore;
                         break;
                 }
-                vueData.score = comma(vueData.score);
+                vueData.gamePlayInfo.score = comma(vueData.gamePlayInfo.score);
 
                 reloadBtn(selectedIndex);
 
@@ -418,7 +309,7 @@ function getRandomColor(){
 
 function getComboScore(){
     var result = 1;
-    result = (vueData.combo / 100);
+    result = (vueData.gamePlayInfo.combo / 100);
 
     if(result < 1.0){
         result += 1;
@@ -535,7 +426,6 @@ function autoPlay(){
 }
 
 function comma(str) {
-
     str = String(str);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
@@ -556,11 +446,13 @@ function changeView(pageName){
         case 'rank':
             getDataBase(function(){
 
-                DBUsersScore = DBUsersScore.sort(function(a, b) {
+                DB_USERS_DATA = DB_USERS_DATA.sort(function(a, b) {
                     return parseFloat(a.score) - parseFloat(b.score);
                 });
-                DBUsersScore.reverse();
-                vueData.usersRank = DBUsersScore;
+                DB_USERS_DATA.reverse();
+
+                console.log(DB_USERS_DATA);
+                vueData.usersRank = DB_USERS_DATA;
                 vueData.pageState = 'rank';
             });
 
@@ -575,25 +467,10 @@ function changeView(pageName){
     //},1000)
 }
 
-function writeUserData(userName, userScore) {
-    if(DBUsersScore !== undefined){
-        var selectUser = DBUsersScore.filter(function(item, index){
-            if (item.name == userName) return true;
-        });
-        var score = comma(userScore);
-        if( (selectUser.length !== 0)
-            && (selectUser[0].score > score) ){
-            alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
-        }else{
-            firebase.database().ref('user/'+userName).set(score);
-            changeView('rank');
-        }
-    }
 
-}
 
 function gameStart(){
-    if(vueData.time != 60){
+    if(vueData.gamePlayInfo.time != 60){
         location.reload();
     }else{
         timeFunc();
@@ -602,13 +479,38 @@ function gameStart(){
 }
 function timeFunc(){
     setTimeout(function(){
-        if(vueData.time >= 1){
-            vueData.time -= 1;
+        if(vueData.gamePlayInfo.time >= 1){
+            vueData.gamePlayInfo.time -= 1;
             timeFunc();
         }else{
-            // alert('당신의 점수는 : '+ comma(vueData.score) + '점 입니다.');
-            var score = comma(vueData.score);
-            vueData.showModal = true;
+            var userId = $.cookie("userId");
+            var selectUser = getUserInfo(userId);
+            // alert('당신의 점수는 : '+ comma(vueData.gamePlayInfo.score) + '점 입니다.');
+            var score = comma(vueData.gamePlayInfo.score);
+            score = String(score).replace(/,/gi,'');
+            score = parseInt(score);
+
+            writeUserData({
+                id : userId,
+                score : score,
+                cb : function(){
+
+                    getDataBase(function(){
+                        var selectUser = getUserInfo(userId);
+                        if(selectUser === undefined){
+                            alert('아이디가 없습니다.');
+                        }
+                        vueData.gamePlayInfo.bonus = selectUser.bonus;
+                        vueData.gamePlayInfo.exe = selectUser.exe;
+                        vueData.gamePlayInfo.level = selectUser.level;
+                        vueData.gamePlayInfo.rank = selectUser.rank;
+                        vueData.pageState= 'gameEnd';
+                    });
+
+                }
+            });
+
+            //vueData.showModal = true;
             //var answer = window.prompt("저장할 유저 이름을 입력하세요.", "닉네임");
             //if(answer){
             //    writeUserData(answer,score);

@@ -9274,7 +9274,6 @@ exports.default = {
       this.parentStepper.moveNextStep();
     },
     movePreviousStep: function movePreviousStep() {
-      console.log(this);
       this.parentStepper.movePreviousStep();
     },
     setActiveStep: function setActiveStep() {
@@ -9540,6 +9539,7 @@ exports.default = {
         this.setActiveStep(nextStep);
       } else {
         this.$emit('completed');
+        joinId();
       }
     },
     movePreviousStep: function movePreviousStep() {

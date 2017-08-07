@@ -15,9 +15,21 @@
   .contentView{
     height : calc(100% - 56px);
 
+    .intro,
     .main,
+    .setting,
     .gameStart{
       height:100%;
+    }
+
+    .intro{
+      .md-input-container{
+        margin-bottom:8px;
+      }
+    }
+
+    .join{
+
     }
     .game{
       height:100%;
@@ -71,7 +83,7 @@
       } // gamePannel
 
     }
-    .game,
+
     .rank{
       height: 100%;
       overflow: scroll;
@@ -86,6 +98,11 @@
   .bottomNav{
     position: absolute;
     bottom:0;
+  }
+
+  .disable{
+    background-color:#ddd;
+    color:white;
   }
 
 }
@@ -110,6 +127,11 @@
     padding: 1rem;
     font-weight: bold;
     text-align: center;
+  }
+
+  .row{
+    margin-right: 0px;
+    margin-left: 0px;
   }
 
 

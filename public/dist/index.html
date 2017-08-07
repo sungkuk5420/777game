@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js" ></script>
     <script src="js/core/vue-material.debug.js"></script>
+    <script src="js/core/jquery.cookie.js"></script>
     <link rel="stylesheet" href="css/core/vue-material.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
@@ -31,14 +32,33 @@
 
     <div class="contentView">
 
-        <div class="main" style="" v-if="pageState == 'main'">
+        <div class="intro" style="" v-if="pageState == 'intro'">
             <div class="outer">
                 <div class="inner">
                     <div class="row">
-                        <md-button class="md-raised md-primary eventObj" onclick="gameStart();">로그인</md-button>
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <md-input-container>
+                                <label>아이디를 입력하세요.</label>
+                                <md-input class="eventObj userId" ></md-input>
+                            </md-input-container>
+                        </div>
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <md-input-container md-has-password>
+                                <label>패드워드를 입력해주세요.</label>
+                                <md-input type="password" class="eventObj userPassword"></md-input>
+                            </md-input-container>
+                        </div>
                     </div>
                     <div class="row">
-                        <md-button class="md-raised md-primary eventObj eventEnd" onclick="changeView('join');">회원가입</md-button>
+                        <div class="col-xs-4 col-xs-offset-2">
+                            <md-button class="md-raised md-primary eventObj" onclick="login();">로그인</md-button>
+                        </div>
+                        <div class="col-xs-4">
+                            <md-button class="md-raised md-primary eventObj eventEnd" onclick="changeView('join');">회원가입</md-button>
+                        </div>
+                    </div>
+                    <div class="row">
+
                     </div>
                 </div>
             </div>
@@ -48,23 +68,26 @@
             <div class="outer">
                 <div class="inner">
                     <md-stepper>
-                        <md-step md-continue="false" md-button-continue="다음" md-button-back="이전">
+                        <md-step md-button-continue="다음" md-button-back="이전">
                             <md-input-container>
-                                <label>유저 이름을 입력하세요.</label>
-                                <md-input class="eventObj" ></md-input>
+                                <label>아이디를 입력하세요.</label>
+                                <md-input class="eventObj userId" ></md-input>
                             </md-input-container>
+                            <md-input-container>
+                                <label>닉네임을 입력하세요.</label>
+                                <md-input class="eventObj userNickName" ></md-input>
+                            </md-input-container>
+                        </md-step>
+                        <md-step md-button-continue="가입" md-button-back="이전">
                             <md-input-container md-has-password>
                                 <label>패드워드를 입력해주세요.</label>
-                                <md-input type="password" class="eventObj"></md-input>
+                                <md-input type="password" class="eventObj userPassword"></md-input>
                             </md-input-container>
 
                             <md-input-container md-has-password>
                                 <label>패스워드를 한번 더 입력해주세요.</label>
-                                <md-input type="password" class="eventObj"></md-input>
+                                <md-input type="password" class="eventObj userPassword2"></md-input>
                             </md-input-container>
-                        </md-step>
-                        <md-step  md-button-continue="완료" md-button-back="이전">
-                            <p>회원가입이 완료 되었습니다.</p>
                         </md-step>
                     </md-stepper>
                 </div>
@@ -81,8 +104,8 @@
         </div>
 
         <div class="game" v-if="pageState == 'gameStart'">
-            <div class="time">time : {{time}}</div>
-            <div class="combo">combo : {{combo}}</div>
+            <div class="time">time : {{gamePlayInfo.time}}</div>
+            <div class="combo">combo : {{gamePlayInfo.combo}}</div>
             <div class="gamePannel">
                 <div class="row" v-for="(buttonRow, rowIndex) in buttons" v-bind:class="'rowIndex-' + rowIndex">
                     <div class="col-md-3 col-xs-3 gameButton eventObj" v-bind:class="[button.styleClass,' buttonIndex-' + i, button.state, button.color] " v-for="(button, i) in buttonRow"
@@ -93,11 +116,20 @@
                     </div>
                 </div>
             </div>
-            <div class="score eventObj " onclick="autoPlay();">{{score}}</div>
+            <div class="score eventObj " onclick="autoPlay();">{{gamePlayInfo.score}}</div>
         </div>
 
-        <div class="gameEnd " style="display:none;" v-if="pageState == 'gameEnd'">
-
+        <div class="gameEnd" style="" v-if="pageState == 'gameEnd'">
+            <div class="time">combo : {{gamePlayInfo.combo}}</div>
+            <div class="combo">score : {{gamePlayInfo.score}}</div>
+            <div class="combo">bonus : {{gamePlayInfo.bonus}}</div>
+            <div class="combo">exe : {{gamePlayInfo.exe}}</div>
+            <div class="combo">level : {{gamePlayInfo.level}}</div>
+            <div class="outer">
+                <div class="inner">
+                    <button type="button" onclick="changeView('rank');" class="md-button md-primary md-raised eventObj eventEnd md-theme-default">rank<div class="md-ink-ripple"><div class="md-ripple" style="width: 0px; height: 0px;"></div></div></button>
+                </div>
+            </div>
         </div>
 
         <div class="rank" v-if="pageState == 'rank'">
@@ -107,24 +139,27 @@
                         <md-table-head></md-table-head>
                         <md-table-head>userName</md-table-head>
                         <md-table-head md-numeric>Score</md-table-head>
+                        <md-table-head md-numeric>level</md-table-head>
                     </md-table-row>
                 </md-table-header>
 
                 <md-table-body>
                     <md-table-row v-for="(currentUser, index) in usersRank">
                         <md-table-cell>{{index+1}}</md-table-cell>
-                        <md-table-cell>{{currentUser.name}}</md-table-cell>
-                        <md-table-cell md-numeric>{{currentUser.score}}</md-table-cell>
+                        <md-table-cell>{{currentUser.info.nickName}}</md-table-cell>
+                        <md-table-cell md-numeric>{{currentUser.info.score}}</md-table-cell>
+                        <md-table-cell md-numeric>{{currentUser.info.level}}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
             </md-table>
         </div>
     </div>
-    <div class="phone-viewport">
+    <div class="phone-viewport" v-if="pageState != 'intro' && pageState != 'wait' ">
         <md-bottom-bar md-theme="teal" class="bottomNav">
             <!--<md-bottom-bar-item md-icon="history" onclick="changeView('main');" class="eventObj eventEnd">main</md-bottom-bar-item>-->
             <md-bottom-bar-item md-icon="favorite" md-active onclick="changeView('game');" class="eventObj eventEnd">game</md-bottom-bar-item>
             <md-bottom-bar-item md-icon="near_me" onclick="changeView('rank');" class="eventObj eventEnd">rank</md-bottom-bar-item>
+            <!--<md-bottom-bar-item md-icon="history" onclick="changeView('setting');" class="eventObj eventEnd">setting</md-bottom-bar-item>-->
         </md-bottom-bar>
     </div>
     <!-- use the modal component, pass in the prop -->
