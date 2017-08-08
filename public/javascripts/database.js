@@ -83,18 +83,35 @@ function joinId(){
         alert('입력되지 않은 항목이 있습니다.');
         return false;
     }
+    getDataBase(function(){
+        var selectUser = getUserInfo(id);
+        console.log(selectUser);
 
+        if(selectUser !== undefined){
+            alert('중복된 아이디가 있습니다.');
+            return false;
+        }
 
-    firebase.database().ref('user/'+id).set({
-        password: password.toString(),
-        nickName: nickName.toString(),
-        level: 1,
-        exe : 0,
-        score: 0
+        var selectUserNickName = checkUserNickName(nickName);
+
+        if(selectUserNickName !== undefined){
+            alert('중복된 닉네임이 있습니다.');
+            return false;
+        }
+
+        firebase.database().ref('user/'+id).set({
+            password: password.toString(),
+            nickName: nickName.toString(),
+            level: 1,
+            exe : 0,
+            score: 0
+        });
+
+        alert('가입 완료.');
+        vueData.pageState='game';
     });
 
-    alert('가입 완료.');
-    vueData.pageState='game';
+
 }
 
 function login(inputId, inputPassword){
@@ -189,6 +206,19 @@ function getUserInfo(userId){
     if(DB_USERS_DATA !== undefined){
         var selectUser = DB_USERS_DATA.filter(function(item, index){
             if (item.id == userId) return true;
+        });
+        if(selectUser.length !== 0){
+            return selectUser[0].info;
+        }else{
+            return undefined;
+        }
+    }
+}
+
+function checkUserNickName(userNickName){
+    if(DB_USERS_DATA !== undefined){
+        var selectUser = DB_USERS_DATA.filter(function(item, index){
+            if (item.info.nickName == userNickName) return true;
         });
         if(selectUser.length !== 0){
             return selectUser[0].info;
