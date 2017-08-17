@@ -98,7 +98,7 @@ function joinId(){
             alert('중복된 닉네임이 있습니다.');
             return false;
         }
-
+        id = getUserId(id);
         firebase.database().ref('user/'+id).set({
             password: password.toString(),
             nickName: nickName.toString(),
@@ -172,21 +172,22 @@ function writeUserData(params) {
         var resultScore = score+bonus;
         var exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
         var level = selectUser.level;
-        if(level < parseInt( exe / 10000 )){
-            level = parseInt( exe / 10000 );
+        if(level < parseInt( exe / 5000 )){
+            level = parseInt( exe / 5000 );
 
-            bonus = parseInt(score*(level/100));
+            bonus = parseInt(score*(level/50));
             resultScore = score+bonus;
             exe = parseInt( String(selectUser.exe).replace(/,/gi,'')) + parseInt(1000+(resultScore/100));
+            console.log(level);
+            level = parseInt( exe / 5000 );
         }
         if( (selectUser !== undefined)
             && (parseInt(String(selectUser.score).replace(/,/gi,'')) > parseInt(String(resultScore).replace(/,/gi,'')))){
             //alert('현재 점수보다 저장된 점수가 높습니다. 저장하지 않습니다.');
-            if(params.cb){
-                params.cb();
-            }
-            return false;
+            resultScore = comma(selectUser.score);
         }
+
+        userId = getUserId(userId);
         firebase.database().ref('user/'+userId).set({
             password: selectUser.password.toString(),
             nickName: selectUser.nickName.toString(),
@@ -205,10 +206,23 @@ function writeUserData(params) {
 function getUserInfo(userId){
     if(DB_USERS_DATA !== undefined){
         var selectUser = DB_USERS_DATA.filter(function(item, index){
-            if (item.id == userId) return true;
+            if (item.id.toLowerCase()== userId.toLowerCase()) return true;
         });
         if(selectUser.length !== 0){
             return selectUser[0].info;
+        }else{
+            return undefined;
+        }
+    }
+}
+
+function getUserId(userId){
+    if(DB_USERS_DATA !== undefined){
+        var selectUser = DB_USERS_DATA.filter(function(item, index){
+            if (item.id.toLowerCase()== userId.toLowerCase()) return true;
+        });
+        if(selectUser.length !== 0){
+            return selectUser[0].id;
         }else{
             return undefined;
         }

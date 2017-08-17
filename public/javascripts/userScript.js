@@ -433,6 +433,9 @@ function comma(str) {
 function changeView(pageName){
     //vueData.pageMoveDelay = true;
     switch (pageName){
+        case 'intro':
+            vueData.pageState='intro';
+            break;
         case 'main':
             vueData.pageState='main';
             break;
@@ -441,7 +444,11 @@ function changeView(pageName){
             break;
         case 'game':
             // vueData = vueDefaultData;
-            vueData.pageState='game';
+            if(vueData.gamePlayInfo.time != 60){
+                vueData.pageState = 'gameEnd';
+            }else {
+                vueData.pageState = 'game';
+            }
             break;
         case 'rank':
             getDataBase(function(){
@@ -480,6 +487,7 @@ function gameStart(){
 function timeFunc(){
     setTimeout(function(){
         if(vueData.gamePlayInfo.time >= 1){
+        // if(vueData.gamePlayInfo.time >= 59){
             vueData.gamePlayInfo.time -= 1;
             timeFunc();
         }else{
