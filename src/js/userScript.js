@@ -81,11 +81,10 @@ function changeView(pageName) {
             getDataBase(function () {
 
                 DB_USERS_DATA = DB_USERS_DATA.sort(function (a, b) {
-                    return parseFloat(a.score) - parseFloat(b.score);
+                    return parseInt(a.info.score.toString().replace(/,/gi,'')) - parseInt(b.info.score.toString().replace(/,/gi,''));
                 });
                 DB_USERS_DATA.reverse();
 
-                console.log(DB_USERS_DATA);
                 vueData.usersRank = DB_USERS_DATA;
                 vueData.pageState = 'rank';
             });
