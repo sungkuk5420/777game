@@ -21,7 +21,6 @@ function joinId() {
     }
     getDataBase(function () {
         var selectUser = getUserInfo(id);
-        console.log(selectUser);
 
         if (selectUser !== undefined) {
             alert('중복된 아이디가 있습니다.');
@@ -62,8 +61,6 @@ function login(inputId, inputPassword) {
     var id = $introPage.find('.userId').val();
     var password = $introPage.find('.userPassword').val();
 
-    console.log('id',id);
-    console.log('password',password);
     if (inputId) {
         id = inputId;
     }
@@ -80,7 +77,6 @@ function login(inputId, inputPassword) {
     }
     getDataBase(function () {
         var selectUser = getUserInfo(id);
-        console.log(selectUser);
 
         if (selectUser === undefined) {
             alert('아이디가 없습니다.');
@@ -103,7 +99,6 @@ function writeUserData(params) {
     if ((params.id !== undefined) &&
         (params.score !== undefined)
     )
-    console.log(params);
         var userId = params.id;
     var userScore = params.score;
     if (DB_USERS_DATA !== undefined) {
@@ -123,7 +118,6 @@ function writeUserData(params) {
             bonus = parseInt(score * (level / 50));
             resultScore = score + bonus;
             exe = parseInt(String(selectUser.exe).replace(/,/gi, '')) + parseInt(1000 + (resultScore / 100));
-            console.log(level);
             level = parseInt(exe / 5000);
         }
         if ((selectUser !== undefined) &&
@@ -149,7 +143,6 @@ function writeUserData(params) {
 }
 
 function getUserInfo(userId) {
-    console.log('userId',userId);
     if(!userId){
         return false;
     }
