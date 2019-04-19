@@ -79,7 +79,7 @@ function changeView(pageName) {
             break;
         case 'rank':
             getDataBase(function () {
-
+                console.log(DB_USERS_DATA);
                 DB_USERS_DATA = DB_USERS_DATA.sort(function (a, b) {
                     return parseInt(a.info.score.toString().replace(/,/gi,'')) - parseInt(b.info.score.toString().replace(/,/gi,''));
                 });
