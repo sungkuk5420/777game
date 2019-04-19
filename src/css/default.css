@@ -90,6 +90,10 @@
   justify-content: center;
 }
 
+#app .contentView .gameEnd .buttons-div {
+  justify-content: center;
+}
+
 #app .contentView .rank {
   height: 100%;
   overflow: scroll;

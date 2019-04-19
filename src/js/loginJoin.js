@@ -41,14 +41,14 @@ function joinId() {
             score: 0
         });
 
-        if(id){
+        if (id) {
             alert('가입 완료.');
             localStorage.setItem("userId", id);
             localStorage.setItem("userPassword", password);
-            getDataBase(function(){
+            getDataBase(function () {
                 vueData.pageState = 'game';
             });
-        }else{
+        } else {
             alert('가입 실패');
         }
     });
@@ -92,6 +92,12 @@ function login(inputId, inputPassword) {
             vueData.pageState = 'game';
         }
     });
+}
+
+function logout() {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userPassword");
+    changeView('intro');
 }
 
 function writeUserData(params) {
@@ -143,7 +149,7 @@ function writeUserData(params) {
 }
 
 function getUserInfo(userId) {
-    if(!userId){
+    if (!userId) {
         return false;
     }
     if (DB_USERS_DATA !== undefined) {

@@ -160,8 +160,10 @@
         <div class="phone-viewport" v-if="pageState != 'intro' && pageState != 'wait' && pageState != 'join' ">
             <md-bottom-bar md-theme="teal" class="bottomNav">
                 <md-bottom-bar-item md-icon="videogame_asset" md-active onclick="changeView('game');"
-                    class="eventObj eventEnd">game</md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="list_alt" onclick="changeView('rank');" class="eventObj eventEnd">rank
+                    class="eventObj eventEnd">Game</md-bottom-bar-item>
+                <md-bottom-bar-item md-icon="list_alt" onclick="changeView('rank');" class="eventObj eventEnd">Rank
+                </md-bottom-bar-item>
+                <md-bottom-bar-item md-icon="exit_to_app" onclick="logout();" class="eventObj eventEnd">Logout
                 </md-bottom-bar-item>
             </md-bottom-bar>
         </div>

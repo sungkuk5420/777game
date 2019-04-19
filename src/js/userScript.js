@@ -1,6 +1,7 @@
 $(document).ready(function () {
     touchEventInit();
 });
+
 function touchEventInit() {
     var el = document.getElementById("app");
     el.addEventListener("touchstart", handleStart, false);
@@ -79,9 +80,8 @@ function changeView(pageName) {
             break;
         case 'rank':
             getDataBase(function () {
-                console.log(DB_USERS_DATA);
                 DB_USERS_DATA = DB_USERS_DATA.sort(function (a, b) {
-                    return parseInt(a.info.score.toString().replace(/,/gi,'')) - parseInt(b.info.score.toString().replace(/,/gi,''));
+                    return parseInt(a.info.score.toString().replace(/,/gi, '')) - parseInt(b.info.score.toString().replace(/,/gi, ''));
                 });
                 DB_USERS_DATA.reverse();
 
@@ -99,6 +99,7 @@ function changeView(pageName) {
     //    vueData.pageMoveDelay = false;
     //},1000)
 }
+
 function findWithAttr(array, attr, value) {
     for (var i = 0; i < array.length; i += 1) {
         for (var j = 0; j < array[i].length; j += 1) {
