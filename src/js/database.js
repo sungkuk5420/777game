@@ -6,6 +6,12 @@ var DATABASE = undefined;
 $(document).ready(function () {
     // Initialize Firebase
     var config = {
+        apiKey: "AIzaSyCEpS3L1i1SWVmsdY3B1Si72wMlGUC2dNE",
+        authDomain: "sevengame-96feb.firebaseapp.com",
+        databaseURL: "https://sevengame-96feb.firebaseio.com",
+        projectId: "sevengame-96feb",
+        storageBucket: "sevengame-96feb.appspot.com",
+        messagingSenderId: "352836000520"
     };
     firebase.initializeApp(config);
 
