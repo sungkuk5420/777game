@@ -85,6 +85,7 @@ function login(inputId, inputPassword) {
 
         if (selectUser.password !== password) {
             alert('패스워드가 틀렸습니다.');
+            logout();
             return false;
         } else {
             localStorage.setItem("userId", id);
