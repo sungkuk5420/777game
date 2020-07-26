@@ -15,7 +15,7 @@
   "homepage": "https://github.com/sungkuk5420/webGame#readme",
   "dependencies": {
     "babel-preset-env": "^1.7.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "node-sass": "^4.10.0",
     "parcel": "^1.10.3",
     "parcel-bundler": "^1.10.3",
