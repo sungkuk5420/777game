@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    touchEventInit();
+    // touchEventInit();
 });
 
 function touchEventInit() {

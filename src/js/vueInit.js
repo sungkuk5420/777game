@@ -28,104 +28,104 @@ window.vueData = {
     'showModal': false,
     'buttons': [
         [{
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        }
         ],
         [{
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        }
         ],
         [{
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        }
         ],
         [{
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            },
-            {
-                'state': 'wait',
-                'text': '7',
-                'styleClass': 'step1',
-                'color': 'red'
-            }
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        },
+        {
+            'state': 'wait',
+            'text': '7',
+            'styleClass': 'step1',
+            'color': 'red'
+        }
         ]
     ],
     'pageMoveDelay': false,
@@ -210,7 +210,7 @@ var mainVue = new Vue({
 });
 
 $(document).ready(function () {
-    touchEventInit();
+    // touchEventInit();
     function touchEventInit() {
         var el = document.getElementById("app");
         el.addEventListener("touchstart", handleStart, false);
