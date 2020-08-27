@@ -24,7 +24,6 @@ Vue.component('modal', {
 });
 
 window.vueData = {
-    'currentEvent': null,
     'pageState': 'wait',
     'showModal': false,
     'buttons': [
@@ -154,7 +153,6 @@ var mainVue = new Vue({
             var newEvt = document.createEvent("MouseEvents");
             var type = null;
             var touch = null;
-            this.currentEvent = Date.now();
 
             switch (event.type) {
                 case "touchstart":

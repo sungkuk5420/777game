@@ -98,8 +98,7 @@
 
             <div class="game" v-if="pageState == 'gameStart'">
                 <div class="time">time : {{gamePlayInfo.time}}</div>
-                <!-- <div class="combo">combo : {{gamePlayInfo.combo}}</div> -->
-                <div class="combo">currentEvent : {{currentEvent}}</div>
+                <div class="combo">combo : {{gamePlayInfo.combo}}</div>
                 <div class="gamePannel">
                     <div class="row" v-for="(buttonRow, rowIndex) in buttons" v-bind:class="'rowIndex-' + rowIndex">
                         <div class="col-md-3 col-xs-3 gameButton eventObj"
