@@ -238,6 +238,49 @@ var mainVue = new Vue({
             }
 
         },
+        autoPlay() {
+            const thisObj = this;
+            console.log(autoPlayIndex)
+            if (autoPlayIndex < 4) {
+                autoPlayIndex++;
+                return false;
+            } else {
+                //vueData.showModal = true;
+                startAutoPlay();
+            }
+            function startAutoPlay() {
+                console.log("play clickButton!")
+                var array = vueData.buttons;
+                var firstButtonIndex = {
+                    'rowIndex': Math.floor(Math.random() * 4),
+                    'index': Math.floor(Math.random() * 4)
+                };
+                var firstButton = array[firstButtonIndex.rowIndex][firstButtonIndex.index];
+                var breakKey = false;
+                for (var i = 0; i < array.length; i += 1) {
+                    for (var j = 0; j < array[i].length; j += 1) {
+                        if ((firstButton.color === array[i][j].color) && (firstButton.styleClass === array[i][j].styleClass)) {
+                            thisObj.buttonClick(firstButtonIndex.rowIndex, firstButtonIndex.index);
+                            thisObj.buttonClick(i, j)
+                            // $('.rowIndex-' + firstButtonIndex.rowIndex + ' .buttonIndex-' + firstButtonIndex.index).click();
+                            // $('.rowIndex-' + i + ' .buttonIndex-' + j).click();
+                            breakKey = true;
+                            setTimeout(function () {
+                                if (autoPlayIndex != 0) {
+                                    startAutoPlay();
+                                }
+                            }, 0);
+
+                            break;
+                        }
+                    }
+                    if (breakKey) {
+                        break;
+                    }
+                }
+            }
+
+        }
     }
 });
 

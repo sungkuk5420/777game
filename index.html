@@ -111,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="score eventObj " onclick="autoPlay();">{{gamePlayInfo.score}}</div>
+                <div class="score eventObj " @click="autoPlay">{{gamePlayInfo.score}}</div>
             </div>
 
             <div class="gameEnd" v-if="pageState == 'gameEnd'">

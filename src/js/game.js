@@ -31,7 +31,7 @@ function getRandomColor() {
 
 function timeFunc() {
     setTimeout(function () {
-        if (vueData.gamePlayInfo.time >= 1) {
+        if (vueData.gamePlayInfo.time >= 55) {
             // if(vueData.gamePlayInfo.time >= 59){
             vueData.gamePlayInfo.time -= 1;
             timeFunc();
@@ -43,6 +43,11 @@ function timeFunc() {
             score = String(score).replace(/,/gi, '');
             score = parseInt(score);
 
+            if (autoPlayIndex > 3) {
+                autoPlayIndex = 0;
+                changeView('rank');
+                return false;
+            }
             writeUserData({
                 id: userId,
                 score: score,
@@ -178,43 +183,4 @@ function getComboScore() {
     }
 
     return result;
-}
-
-function autoPlay() {
-    if (autoPlayIndex < 4) {
-        autoPlayIndex++;
-        return false;
-    } else {
-        //vueData.showModal = true;
-        clickButton();
-
-    }
-
-    function clickButton() {
-        var array = vueData.buttons;
-        var firstButtonIndex = {
-            'rowIndex': Math.floor(Math.random() * 4),
-            'index': Math.floor(Math.random() * 4)
-        };
-        var firstButton = array[firstButtonIndex.rowIndex][firstButtonIndex.index];
-        var breakKey = false;
-        for (var i = 0; i < array.length; i += 1) {
-            for (var j = 0; j < array[i].length; j += 1) {
-                if ((firstButton.color === array[i][j].color) && (firstButton.styleClass === array[i][j].styleClass)) {
-                    $('.rowIndex-' + firstButtonIndex.rowIndex + ' .buttonIndex-' + firstButtonIndex.index).click();
-                    $('.rowIndex-' + i + ' .buttonIndex-' + j).click();
-                    breakKey = true;
-                    setTimeout(function () {
-                        clickButton();
-                    }, 0);
-
-                    break;
-                }
-            }
-            if (breakKey) {
-                break;
-            }
-        }
-    }
-
 }
