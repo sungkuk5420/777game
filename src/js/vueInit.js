@@ -154,7 +154,7 @@ var mainVue = new Vue({
             var newEvt = document.createEvent("MouseEvents");
             var type = null;
             var touch = null;
-            this.currentEvent = event.changedTouches.length;
+            this.currentEvent = Date.now();
 
             switch (event.type) {
                 case "touchstart":
