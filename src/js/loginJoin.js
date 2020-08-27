@@ -87,6 +87,7 @@ function login(inputId, inputPassword) {
             alert('패스워드가 틀렸습니다.');
             localStorage.removeItem("userId");
             localStorage.removeItem("userPassword");
+            location.reload();
             return false;
         } else {
             localStorage.setItem("userId", id);
