@@ -148,7 +148,7 @@ var mainVue = new Vue({
         onTouch(func) {
             console.log(event)
             event.preventDefault();
-            if (event.touches.length > 1 || (event.type == "touchend" && event.touches.length > 0))
+            if (event.touches.length > 2 || (event.type == "touchend" && event.touches.length > 0))
                 return;
 
             var newEvt = document.createEvent("MouseEvents");
@@ -156,25 +156,25 @@ var mainVue = new Vue({
             var touch = null;
             this.currentEvent = Date.now();
 
-            // switch (event.type) {
-            //     case "touchstart":
-            //         type = "mousedown";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            //     case "touchmove":
-            //         type = "mousemove";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            //     case "touchend":
-            //         type = "mouseup";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            // }
+            switch (event.type) {
+                case "touchstart":
+                    type = "mousedown";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
+                case "touchmove":
+                    type = "mousemove";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
+                case "touchend":
+                    type = "mouseup";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
+            }
 
-            // newEvt.initMouseEvent(type, true, true, event.target.ownerDocument.defaultView, 0,
-            //     touch.screenX, touch.screenY, touch.clientX, touch.clientY,
-            //     event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, 0, null);
-            // event.target.dispatchEvent(newEvt);
+            newEvt.initMouseEvent(type, true, true, event.target.ownerDocument.defaultView, 0,
+                touch.screenX, touch.screenY, touch.clientX, touch.clientY,
+                event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, 0, null);
+            event.target.dispatchEvent(newEvt);
 
             func();
         },
