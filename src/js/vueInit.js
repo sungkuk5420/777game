@@ -24,6 +24,7 @@ Vue.component('modal', {
 });
 
 window.vueData = {
+    'currentEvent': null,
     'pageState': 'wait',
     'showModal': false,
     'buttons': [
@@ -153,42 +154,27 @@ var mainVue = new Vue({
             var newEvt = document.createEvent("MouseEvents");
             var type = null;
             var touch = null;
+            this.currentEvent = event.changedTouches.length;
 
-            var t, e, i, j, k;
-
-
-            touch = event.changedTouches;
-            for (i = 0, j = touch.length; i < j; i++) {
-
-                //id를 붙여 이벤트를 만들고
-                e = document.createEvent("Event");
-                e.initEvent(event.type + touch[i].identifier, true, true);
-
-                //속성을 복사해준다.
-                for (k in touch[i]) e[k] = touch[i][k];
-
-                //라우팅~
-                event.target.dispatchEvent(e);
+            switch (event.type) {
+                case "touchstart":
+                    type = "mousedown";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
+                case "touchmove":
+                    type = "mousemove";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
+                case "touchend":
+                    type = "mouseup";
+                    touch = event.changedTouches[event.changedTouches.length - 1];
+                    break;
             }
-            // switch (event.type) {
-            //     case "touchstart":
-            //         type = "mousedown";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            //     case "touchmove":
-            //         type = "mousemove";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            //     case "touchend":
-            //         type = "mouseup";
-            //         touch = event.changedTouches[event.changedTouches.length - 1];
-            //         break;
-            // }
 
-            // newEvt.initMouseEvent(type, true, true, event.target.ownerDocument.defaultView, 0,
-            //     touch.screenX, touch.screenY, touch.clientX, touch.clientY,
-            //     event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, 0, null);
-            // event.target.dispatchEvent(newEvt);
+            newEvt.initMouseEvent(type, true, true, event.target.ownerDocument.defaultView, 0,
+                touch.screenX, touch.screenY, touch.clientX, touch.clientY,
+                event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, 0, null);
+            event.target.dispatchEvent(newEvt);
 
             func();
         },
