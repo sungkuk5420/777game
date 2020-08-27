@@ -31,7 +31,7 @@ function getRandomColor() {
 
 function timeFunc() {
     setTimeout(function () {
-        if (vueData.gamePlayInfo.time >= 55) {
+        if (vueData.gamePlayInfo.time >= 1) {
             // if(vueData.gamePlayInfo.time >= 59){
             vueData.gamePlayInfo.time -= 1;
             timeFunc();
