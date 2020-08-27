@@ -157,15 +157,15 @@ var mainVue = new Vue({
             switch (event.type) {
                 case "touchstart":
                     type = "mousedown";
-                    touch = event.changedTouches[0];
+                    touch = event.changedTouches[event.changedTouches.length - 1];
                     break;
                 case "touchmove":
                     type = "mousemove";
-                    touch = event.changedTouches[0];
+                    touch = event.changedTouches[event.changedTouches.length - 1];
                     break;
                 case "touchend":
                     type = "mouseup";
-                    touch = event.changedTouches[0];
+                    touch = event.changedTouches[event.changedTouches.length - 1];
                     break;
             }
 
